@@ -1,33 +1,316 @@
-<! Doctype html>
 
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8">
+  <head>    
+    <meta charset="utf-8">
     <title>controller</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script src="http://localhost/Controller_Test/controller.js"></script>
+    <meta http-equiv="imagetoolbar" content="no">
+    <meta name="viewport" content="user-scalable=no">
+    <script src="/socket.io/socket.io.js"></script>
   </head>
   
-  <body>
-    <p id="str">test</p>
-    <button>右旋回</button>
-    <button>前進</button>
-    <button>左旋回</button>
-    <form>
-      <select class="select" id="select" name="頭部モーター可動範囲(デフォルト推奨)">
-        <option value="1">1</option>
-      </select>
-    </form>
-    
-    <script>
-      $('p').text("test message");
-      for(var i=0;i<10;i++){
-        $('#select').append($('<option>').html('test').val('test'));
-        console.log(i);
-      }
-                      
-    </script>
+  <body>    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://munro.local/trybots_controller/test.js"></script>
+    <div class="main">
+      <div class="controller" id="test">
+        
+        <div class="forward">
+          <button id="forward">FORWARD</button>
+        </div><!--forward-->
+        
+        <div class="turn">
+          <button id="left">LEFT</button>
+          <button id="dive">DIVE</button>
+          <button id="right">RIGHT</button>
+        </div><!--turn-->
+        
+        <h4>潜水時パラメーター</h4>
+        <div class="parameter_dive">
+          <div class="box">
+            <h6>頭部モーター</h6>
+            <form>
+              <select id="select_head" name="頭部モーター可動範囲(デフォルト推奨)">
+              </select>
+            </form>
+          </div><!--box-->
+          
+          <div class="box">
+            <h6>尻尾モーター</h6>
+            <form>
+              <select id="select_tail" name="尻尾モーター可動範囲">
+              </select>
+            </form>
+          </div><!--box-->
+          
+          <div class="box">
+            <h6>足モーター</h6>
+            <form>
+              <select id="select_foot" name="足モーター可動範囲">
+              </select>
+            </form>
+          </div><!--box-->
+          
+        </div><!--parameter-->
 
+        <h4>左旋回パラメーター</h4>
+        <div class="parameter_left">
+          <div class="box">
+            <h6>頭部モーター</h6>
+            <form>
+              <select id="select_head" name="頭部モーター可動範囲(デフォルト推奨)">
+              </select>
+            </form>
+          </div><!--box-->
+          
+          <div class="box">
+            <h6>尻尾モーター</h6>
+            <form>
+              <select id="select_tail" name="尻尾モーター可動範囲">
+              </select>
+            </form>
+          </div><!--box-->
+          
+          <div class="box">
+            <h6>足モーター</h6>
+            <form>
+              <select id="select_foot" name="足モーター可動範囲">
+              </select>
+            </form>
+          </div><!--box-->
+          
+        </div><!--parameter-->
+        
+        <h4>右旋回パラメーター</h4>
+        <div class="parameter_right">
+          <div class="box">
+            <h6>頭部モーター</h6>
+            <form>
+              <select id="select_head" name="頭部モーター可動範囲(デフォルト推奨)">
+              </select>
+            </form>
+          </div><!--box-->
+          
+          <div class="box">
+            <h6>尻尾モーター</h6>
+            <form>
+              <select id="select_tail" name="尻尾モーター可動範囲">
+              </select>
+            </form>
+          </div><!--box-->
+          
+          <div class="box">
+            <h6>足モーター</h6>
+            <form>
+              <select id="select_foot" name="足モーター可動範囲">
+              </select>
+            </form>
+          </div><!--box-->
+          
+        </div><!--parameter-->
+
+        
+        <button id="set">SET</button>
+      </div><!--controller-->
+      
+      <div class="debug">
+        <div id="log">
+          
+        </div><!--log-->
+      </div><!--debug-->
+    </div><!-- main-->
   </body>
+  
+  <style>
+      body{
+      background-color:black;
+      height:auto;
+      }
+      
+      p{
+      color:white;
+      }
+      
+      h4{
+      text-align:center;
+      color:#3FF;
+
+      margin:10px;
+      }
+
+      h6{
+      color:white;
+      text-align:center;
+      padding:0px;
+      margin:0px;
+      }
+      
+      h5{
+      padding:0px;
+      margin:0;
+      }
+      
+      .controller{
+      padding:0px;
+      float:left;
+      width:50%;
+      height:auto;
+      }
+      
+      .debug{
+      float:right;
+      width:50%;
+      height:auto;
+      color:white;
+      }
+      
+      .forward{
+      padding:15px;
+      }
+      
+      .turn{
+      padding:15px;
+      }
+      
+      select{
+      width:150px;
+      height:20px;
+      font-weight:bold;
+      font-size:15px;
+      
+      }
+      
+      #log{
+      margin-top:15px;
+      border: 3px solid #3FF;
+      overflow:scroll;
+      }
+      
+      .box{
+      text-align:center;
+      display:table-cell;
+      }
+      
+      button{
+      border-width:3px;
+      border-color:#3FF;
+      background-color:black;
+      color:white;
+      font-size:100%;
+      }
+      
+      button .send{
+      background-color:white;
+      }
+      
+      button:active{
+      background-color:white;
+      color:black;
+      }
+          
+  </style>
+    
+  <script>
+                      //-------------------------------
+                      for(var i=2;i<=12;i++){
+                        $('.parameter_dive #select_head').append($('<option>').html(i).val(i));
+                        console.log(i);
+                      }
+
+                      for(var i=2;i<=12;i++){
+                        $('.parameter_left #select_head').append($('<option>').html(i).val(i));
+                        console.log(i);
+                      }
+
+                      for(var i=2;i<=12;i++){
+                        $('.parameter_right #select_head').append($('<option>').html(i).val(i));
+                        console.log(i);
+                      }
+                      //-------------------------------
+                      for(var i=2;i<=12;i++){
+                       $('.parameter_dive #select_tail').append($('<option>').html(i).val(i));
+                       console.log(i);
+                      }
+
+                      for(var i=2;i<=12;i++){
+                       $('.parameter_left #select_tail').append($('<option>').html(i).val(i));
+                       console.log(i);
+                      }
+
+                      for(var i=2;i<=12;i++){
+                       $('.parameter_right #select_tail').append($('<option>').html(i).val(i));
+                       console.log(i);
+                      }               
+                      //-------------------------------
+                      for(var i=2;i<=12;i++){
+                        $('.parameter_dive #select_foot').append($('<option>').html(i).val(i));
+                        console.log(i);
+                      }
+
+                      for(var i=2;i<=12;i++){
+                        $('.parameter_left #select_foot').append($('<option>').html(i).val(i));
+                        console.log(i);
+                      }
+
+                      for(var i=2;i<=12;i++){
+                        $('.parameter_right #select_foot').append($('<option>').html(i).val(i));
+                        console.log(i);
+                      }
+                      //--------------------------------                
+
+                      var parameter=io.connect('http://localhost:1337/parameter');
+
+                      $("#forward").mousedown(function(e){
+                      console.log("forward clicked");
+                      var date=new Date()              
+                      $("#log").append($('<h5>').text(date+" : forward"));              
+                      });
+                      
+                      $("#left").mousedown(function(e){
+                      console.log("left clicked");
+                      var date=new Date()              
+                      $("#log").append($('<h5>').text(date+" : left"));              
+                      });                
+                      
+                      $("#dive").mousedown(function(e){
+                      console.log("forward clicked");
+                      var date=new Date()              
+                      $("#log").append($('<h5>').text(date+" : dive"));              
+                      });
+                      
+                      
+                      $("#right").mousedown(function(e){
+                      console.log("forward clicked");
+                      var date=new Date()              
+                      $("#log").append($('<h5>').text(date+" : right"));              
+                      });
+
+                      $("#set").mousedown(function(e){
+                         var param={dive_head:$('.parameter_dive #select_head').val(),
+                                    dive_tail:$('.parameter_dive #select_tail').val(),
+                                    dive_foot:$('.parameter_dive #select_foot').val(),
+                                    left_head:$('.parameter_left #select_head').val(),
+                                    left_tail:$('.parameter_left #select_tail').val(),
+                                    left_foot:$('.parameter_left #select_foot').val(),
+                                    right_head:$('.parameter_right #select_head').val(),
+                                    right_tail:$('.parameter_right #select_tail').val(),
+                                    right_foot:$('.parameter_right #select_foot').val()};
+                                      
+                        parameter.json.emit("message",param);
+                        $("#log").append($('<h5>').text(JSON.stringify(param)));                                      
+                                                              
+                      });                
+                                      
+                      var width=$('#test').width();
+                      var height=$('body').height();                
+                      console.log("width : "+width);
+                      console.log("height : "+height);                
+                      $("#forward").css({'width':width/5,'height':width/5,'margin-left':width*2/5-15,'padding':'0px'});
+                      $("#left").css({'width':width/5,'height':width/5,'margin-left':width/10-15});
+                      $("#dive").css({'width':width/5,'height':width/5,'margin-left':width/10});
+                      $("#right").css({'width':width/5,'height':width/5,'margin-left':width/10});
+                      $("#log").css({'width':width*0.9,'height':height});
+                      $(".box").css({'width':width/3});
+                      $("#set").css({'width':width/3,'height':'40px','margin-left':width/3+6,'margin-top':'20px'});
+</script>        
 </html>
 
