@@ -1,0 +1,33 @@
+<! Doctype html>
+
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>controller</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://localhost/Controller_Test/controller.js"></script>
+  </head>
+  
+  <body>
+    <p id="str">test</p>
+    <button>右旋回</button>
+    <button>前進</button>
+    <button>左旋回</button>
+    <form>
+      <select class="select" id="select" name="頭部モーター可動範囲(デフォルト推奨)">
+        <option value="1">1</option>
+      </select>
+    </form>
+    
+    <script>
+      $('p').text("test message");
+      for(var i=0;i<10;i++){
+        $('#select').append($('<option>').html('test').val('test'));
+        console.log(i);
+      }
+                      
+    </script>
+
+  </body>
+</html>
+
