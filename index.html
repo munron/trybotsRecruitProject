@@ -10,7 +10,6 @@
   
   <body>    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://munro.local/trybots_controller/test.js"></script>
     <div class="main">
       <div class="controller" id="test">
         
@@ -210,55 +209,74 @@
   </style>
     
   <script>
+                      
                       //-------------------------------
                       for(var i=2;i<=12;i++){
                         $('.parameter_dive #select_head').append($('<option>').html(i).val(i));
-                        console.log(i);
+                      
                       }
 
                       for(var i=2;i<=12;i++){
                         $('.parameter_left #select_head').append($('<option>').html(i).val(i));
-                        console.log(i);
+                      
                       }
 
                       for(var i=2;i<=12;i++){
                         $('.parameter_right #select_head').append($('<option>').html(i).val(i));
-                        console.log(i);
+                      
                       }
                       //-------------------------------
                       for(var i=2;i<=12;i++){
                        $('.parameter_dive #select_tail').append($('<option>').html(i).val(i));
-                       console.log(i);
+                      
                       }
 
                       for(var i=2;i<=12;i++){
                        $('.parameter_left #select_tail').append($('<option>').html(i).val(i));
-                       console.log(i);
+                      
                       }
 
                       for(var i=2;i<=12;i++){
                        $('.parameter_right #select_tail').append($('<option>').html(i).val(i));
-                       console.log(i);
+                      
                       }               
                       //-------------------------------
                       for(var i=2;i<=12;i++){
                         $('.parameter_dive #select_foot').append($('<option>').html(i).val(i));
-                        console.log(i);
                       }
 
                       for(var i=2;i<=12;i++){
                         $('.parameter_left #select_foot').append($('<option>').html(i).val(i));
-                        console.log(i);
                       }
 
                       for(var i=2;i<=12;i++){
                         $('.parameter_right #select_foot').append($('<option>').html(i).val(i));
-                        console.log(i);
                       }
                       //--------------------------------                
 
+                      
                       var parameter=io.connect('http://localhost:1337/parameter');
+                      var default_parameter=io.connect('http://localhost:1337/default_parameter');                
 
+                      default_parameter.emit("initial","initial");
+                      default_parameter.on("default_text",function(data){
+                         $("#log").append($('<h5>').text("default parameter received"));
+                         $("#log").append($('<h5>').text(data));
+                         var data=JSON.parse(data);             
+                         console.log(data);
+
+                         //初期値の設定             
+                         $('.parameter_dive #select_head').val(data.dive_head);
+                         $('.parameter_dive #select_tail').val(data.dive_tail);                     
+                         $('.parameter_dive #select_foot').val(data.dive_foot);
+                         $('.parameter_left #select_head').val(data.left_head);
+                         $('.parameter_left #select_tail').val(data.left_tail);
+                         $('.parameter_left #select_foot').val(data.left_foot);
+                         $('.parameter_right #select_head').val(data.right_head);
+                         $('.parameter_right #select_tail').val(data.right_tail);
+                         $('.parameter_right #select_foot').val(data.right_foot);                                      
+                      });
+                                                                                                  
                       $("#forward").mousedown(function(e){
                       console.log("forward clicked");
                       var date=new Date()              
@@ -295,7 +313,8 @@
                                     right_tail:$('.parameter_right #select_tail').val(),
                                     right_foot:$('.parameter_right #select_foot').val()};
                                       
-                        parameter.json.emit("message",param);
+                        parameter.json.emit("message",param)
+                        $("#log").append($('<h5>').text("ファイルに設定を書き込みます"));                                      
                         $("#log").append($('<h5>').text(JSON.stringify(param)));                                      
                                                               
                       });                

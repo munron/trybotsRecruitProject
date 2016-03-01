@@ -19,8 +19,26 @@ function handler(req,res){
     });
 }
 
+var default_parameter=io.of('/default_parameter').on('connection',function(socket){
+    socket.on('initial', function(data) {
+        console.log(data);
+        fs.readFile("./setting.txt",'utf-8',function(err,text){
+            if(err) throw err;
+            console.log(text);
+            socket.emit("default_text",text);            
+        });
+        
+    });
+});
+
 var parameter=io.of('/parameter').on('connection',function(socket){
     socket.on('message', function(data) {
         console.log(data);
+        fs.writeFile("./setting.txt",JSON.stringify(data),function(err){
+            if(err) throw err;
+            console.log("パラメーターをsetting.txtに上書きしました");
+        });
     });
 });
+
+
