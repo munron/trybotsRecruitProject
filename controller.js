@@ -42,3 +42,11 @@ var parameter=io.of('/parameter').on('connection',function(socket){
 });
 
 
+var signal=io.of('/signal').on('connection',function(socket){
+    socket.on('signal', function(data) {
+        console.log("signal="+data);
+        
+    });
+});
+
+

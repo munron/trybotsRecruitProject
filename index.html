@@ -14,13 +14,13 @@
       <div class="controller" id="test">
         
         <div class="forward">
-          <button id="forward">FORWARD</button>
+          <button id="forward">前進</button>
         </div><!--forward-->
         
         <div class="turn">
-          <button id="left">LEFT</button>
-          <button id="dive">DIVE</button>
-          <button id="right">RIGHT</button>
+          <button id="left">左旋回</button>
+          <button id="dive">潜水</button>
+          <button id="right">右旋回</button>
         </div><!--turn-->
         
         <h4>潜水時パラメーター</h4>
@@ -108,7 +108,7 @@
         </div><!--parameter-->
 
         
-        <button id="set">SET</button>
+        <button id="set">設定</button>
       </div><!--controller-->
       
       <div class="debug">
@@ -209,7 +209,7 @@
   </style>
     
   <script>
-                      
+                      //サーボモーターの可動範囲を設定                      
                       //-------------------------------
                       for(var i=2;i<=12;i++){
                         $('.parameter_dive #select_head').append($('<option>').html(i).val(i));
@@ -254,10 +254,13 @@
                       }
                       //--------------------------------                
 
-                      
-                      var parameter=io.connect('http://localhost:1337/parameter');
-                      var default_parameter=io.connect('http://localhost:1337/default_parameter');                
-
+                      //パラメーター情報
+                      var parameter         = io.connect('http://localhost:1337/parameter');
+                      //パラメーター初期値情報
+                      var default_parameter = io.connect('http://localhost:1337/default_parameter');                
+                      //指令情報
+                      var signal            = io.connect('http://localhost:1337/signal');
+                                      
                       default_parameter.emit("initial","initial");
                       default_parameter.on("default_text",function(data){
                          $("#log").append($('<h5>').text("default parameter received"));
@@ -280,28 +283,34 @@
                       $("#forward").mousedown(function(e){
                       console.log("forward clicked");
                       var date=new Date()              
-                      $("#log").append($('<h5>').text(date+" : forward"));              
+                      signal.emit("signal",1);
+                      $("#log").append($('<h5>').text(date+" : forward (signal=1)"));
+                                      
                       });
                       
                       $("#left").mousedown(function(e){
                       console.log("left clicked");
-                      var date=new Date()              
-                      $("#log").append($('<h5>').text(date+" : left"));              
+                      var date=new Date()
+                      signal.emit("signal",2);               
+                      $("#log").append($('<h5>').text(date+" : left (signal=2)"));              
                       });                
                       
                       $("#dive").mousedown(function(e){
-                      console.log("forward clicked");
-                      var date=new Date()              
-                      $("#log").append($('<h5>').text(date+" : dive"));              
+                      console.log("dive clicked");
+                      var date=new Date()
+                      signal.emit("signal",3);                
+                      $("#log").append($('<h5>').text(date+" : dive (signal=3)"));              
                       });
                       
                       
                       $("#right").mousedown(function(e){
-                      console.log("forward clicked");
+                      console.log("right clicked");
                       var date=new Date()              
-                      $("#log").append($('<h5>').text(date+" : right"));              
+                      signal.emit("signal",4);
+                      $("#log").append($('<h5>').text(date+" : right (signal=4)"));              
                       });
 
+                      //パラメーターをサーバーに送信                
                       $("#set").mousedown(function(e){
                          var param={dive_head:$('.parameter_dive #select_head').val(),
                                     dive_tail:$('.parameter_dive #select_tail').val(),
