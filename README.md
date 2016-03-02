@@ -31,10 +31,11 @@ Raspberry-pi側の実装
 サーボモーターの角度が記録されている  
 
 ##実行方法
+###環境構築  
 npm install socket.io  
 npm install ejs  
-
+###実行  
 $nodejs controller.js|python server.py  
-
+(nodejsでサーバーを起動、その出力をモーター制御するpythonスクリプトに渡している)  
 
 
