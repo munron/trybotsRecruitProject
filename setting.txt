@@ -1,1 +1,1 @@
-{"dive_head":"12","dive_tail":"9","dive_foot":"2","left_head":"10","left_tail":"6","left_foot":"3","right_head":"12","right_tail":"11","right_foot":"10"}
+{"forward_head":"12","forward_tail":"8","forward_foot":"7","dive_head":"2","dive_tail":"7","dive_foot":"7","left_head":"12","left_tail":"7","left_foot":"2","right_head":"12","right_tail":"7","right_foot":"12"}

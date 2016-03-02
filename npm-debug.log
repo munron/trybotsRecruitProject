@@ -1,0 +1,141 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', 'ejs' ]
+2 info using npm@1.4.29
+3 info using node@v0.10.42
+4 verbose node symlink /usr/bin/node
+5 warn deprecated This version of npm lacks support for important features,
+6 warn deprecated such as scoped packages, offered by the primary npm
+7 warn deprecated registry. Consider upgrading to at least npm@2, if not the
+8 warn deprecated latest stable version. To upgrade to npm@2, run:
+9 warn deprecated npm -g install npm@latest-2
+10 warn deprecated To upgrade to the latest stable version, run:
+11 warn deprecated npm -g install npm@latest
+12 warn deprecated (Depending on how Node.js was installed on your system, you
+13 warn deprecated may need to prefix the preceding commands with `sudo`, or if
+14 warn deprecated on Windows, run them from an Administrator prompt.)
+15 warn deprecated If you're running the version of npm bundled with
+16 warn deprecated Node.js 0.10 LTS, be aware that the next version of 0.10 LTS
+17 warn deprecated will be bundled with a version of npm@2, which has some small
+18 warn deprecated backwards-incompatible changes made to `npm run-script` and
+19 warn deprecated semver behavior.
+20 verbose cache add [ 'ejs', null ]
+21 verbose cache add name=undefined spec="ejs" args=["ejs",null]
+22 verbose parsed url { protocol: null,
+22 verbose parsed url   slashes: null,
+22 verbose parsed url   auth: null,
+22 verbose parsed url   host: null,
+22 verbose parsed url   port: null,
+22 verbose parsed url   hostname: null,
+22 verbose parsed url   hash: null,
+22 verbose parsed url   search: null,
+22 verbose parsed url   query: null,
+22 verbose parsed url   pathname: 'ejs',
+22 verbose parsed url   path: 'ejs',
+22 verbose parsed url   href: 'ejs' }
+23 silly lockFile 75eeca8f-ejs ejs
+24 verbose lock ejs /root/.npm/75eeca8f-ejs.lock
+25 silly lockFile 75eeca8f-ejs ejs
+26 silly lockFile 75eeca8f-ejs ejs
+27 verbose addNamed [ 'ejs', '' ]
+28 verbose addNamed [ null, '*' ]
+29 silly lockFile bcdf6e5f-ejs ejs@
+30 verbose lock ejs@ /root/.npm/bcdf6e5f-ejs.lock
+31 silly addNameRange { name: 'ejs', range: '*', hasData: false }
+32 verbose request where is /ejs
+33 verbose request registry https://registry.npmjs.org/
+34 verbose request id 876c559b3f462dca
+35 verbose url raw /ejs
+36 verbose url resolving [ 'https://registry.npmjs.org/', './ejs' ]
+37 verbose url resolved https://registry.npmjs.org/ejs
+38 verbose request where is https://registry.npmjs.org/ejs
+39 info trying registry request attempt 1 at 11:46:54
+40 verbose etag "CFZGF7VGY7N318EIMP2HEQ1Z4"
+41 http GET https://registry.npmjs.org/ejs
+42 http 304 https://registry.npmjs.org/ejs
+43 silly registry.get cb [ 304,
+43 silly registry.get   { date: 'Wed, 02 Mar 2016 11:46:55 GMT',
+43 silly registry.get     via: '1.1 varnish',
+43 silly registry.get     'cache-control': 'max-age=300',
+43 silly registry.get     etag: '"CFZGF7VGY7N318EIMP2HEQ1Z4"',
+43 silly registry.get     age: '260',
+43 silly registry.get     connection: 'keep-alive',
+43 silly registry.get     'x-served-by': 'cache-nrt6126-NRT',
+43 silly registry.get     'x-cache': 'HIT',
+43 silly registry.get     'x-cache-hits': '1',
+43 silly registry.get     'x-timer': 'S1456919215.011389,VS0,VE0',
+43 silly registry.get     vary: 'Accept' } ]
+44 verbose etag https://registry.npmjs.org/ejs from cache
+45 silly addNameRange number 2 { name: 'ejs', range: '*', hasData: true }
+46 silly addNameRange versions [ 'ejs',
+46 silly addNameRange   [ '0.0.1',
+46 silly addNameRange     '0.0.2',
+46 silly addNameRange     '0.0.3',
+46 silly addNameRange     '0.0.4',
+46 silly addNameRange     '0.1.0',
+46 silly addNameRange     '0.2.0',
+46 silly addNameRange     '0.2.1',
+46 silly addNameRange     '0.3.0',
+46 silly addNameRange     '0.3.1',
+46 silly addNameRange     '0.4.0',
+46 silly addNameRange     '0.4.1',
+46 silly addNameRange     '0.4.2',
+46 silly addNameRange     '0.4.3',
+46 silly addNameRange     '0.5.0',
+46 silly addNameRange     '0.6.0',
+46 silly addNameRange     '0.6.1',
+46 silly addNameRange     '0.7.0',
+46 silly addNameRange     '0.7.1',
+46 silly addNameRange     '0.7.2',
+46 silly addNameRange     '0.8.0',
+46 silly addNameRange     '0.8.1',
+46 silly addNameRange     '0.8.2',
+46 silly addNameRange     '0.8.3',
+46 silly addNameRange     '0.8.4',
+46 silly addNameRange     '0.8.5',
+46 silly addNameRange     '0.8.6',
+46 silly addNameRange     '0.8.8',
+46 silly addNameRange     '1.0.0',
+46 silly addNameRange     '2.0.2',
+46 silly addNameRange     '2.0.3',
+46 silly addNameRange     '2.0.4',
+46 silly addNameRange     '2.0.5',
+46 silly addNameRange     '2.0.6',
+46 silly addNameRange     '2.0.7',
+46 silly addNameRange     '2.0.8',
+46 silly addNameRange     '2.1.1',
+46 silly addNameRange     '2.1.2',
+46 silly addNameRange     '2.1.3',
+46 silly addNameRange     '2.1.4',
+46 silly addNameRange     '2.2.1',
+46 silly addNameRange     '2.2.2',
+46 silly addNameRange     '2.2.3',
+46 silly addNameRange     '2.2.4',
+46 silly addNameRange     '2.3.1',
+46 silly addNameRange     '2.3.2',
+46 silly addNameRange     '2.3.3',
+46 silly addNameRange     '2.3.4',
+46 silly addNameRange     '2.4.1' ] ]
+47 verbose addNamed [ 'ejs', '2.4.1' ]
+48 verbose addNamed [ '2.4.1', '2.4.1' ]
+49 silly lockFile c6838b74-ejs-2-4-1 ejs@2.4.1
+50 verbose lock ejs@2.4.1 /root/.npm/c6838b74-ejs-2-4-1.lock
+51 silly lockFile c6838b74-ejs-2-4-1 ejs@2.4.1
+52 silly lockFile c6838b74-ejs-2-4-1 ejs@2.4.1
+53 silly lockFile bcdf6e5f-ejs ejs@
+54 silly lockFile bcdf6e5f-ejs ejs@
+55 error Failed to parse json
+55 error Unexpected end of input
+56 error File: /root/.npm/ejs/2.4.1/package/package.json
+57 error Failed to parse package.json data.
+57 error package.json must be actual JSON, not just JavaScript.
+57 error
+57 error This is not a bug in npm.
+57 error Tell the package author to fix their package.json file. JSON.parse
+58 error System Linux 4.1.13-v7+
+59 error command "/usr/bin/node" "/usr/bin/npm" "install" "ejs"
+60 error cwd /var/www/html/trybots_controller
+61 error node -v v0.10.42
+62 error npm -v 1.4.29
+63 error file /root/.npm/ejs/2.4.1/package/package.json
+64 error code EJSONPARSE
+65 verbose exit [ 1, true ]
