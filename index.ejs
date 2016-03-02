@@ -12,10 +12,9 @@
     
     <script type="text/javascript" src="http://<%= ipaddr %>/trybots_controller/jquery.min.js"></script>
     <div class="main">
-      <div class="controller" id="test">
+      <div class="controller">
         
         <div class="forward">
-	  
           <button id="forward">前進</button>
         </div><!--forward-->
         
@@ -238,8 +237,8 @@
       }
           
   </style>
+  
 <script>
-
 //サーボモーターの可動範囲を設定
 //-------------------------------
 for(var i=2;i<=12;i++){
@@ -254,37 +253,32 @@ for(var i=2;i<=12;i++){
     $('.parameter_forward #select_foot').append($('<option>').html(i).val(i));
 }
 
-//-------------------------------
+
 for(var i=2;i<=12;i++){
     $('.parameter_dive #select_head').append($('<option>').html(i).val(i));
-
 }
 
 for(var i=2;i<=12;i++){
     $('.parameter_left #select_head').append($('<option>').html(i).val(i));
-
 }
 
 for(var i=2;i<=12;i++){
     $('.parameter_right #select_head').append($('<option>').html(i).val(i));
-
 }
-//-------------------------------
+
+		
 for(var i=2;i<=12;i++){
     $('.parameter_dive #select_tail').append($('<option>').html(i).val(i));
-
 }
 
 for(var i=2;i<=12;i++){
     $('.parameter_left #select_tail').append($('<option>').html(i).val(i));
-
 }
 
 for(var i=2;i<=12;i++){
     $('.parameter_right #select_tail').append($('<option>').html(i).val(i));
-
 }
-//-------------------------------
+
 for(var i=2;i<=12;i++){
     $('.parameter_dive #select_foot').append($('<option>').html(i).val(i));
 }
@@ -304,10 +298,12 @@ var parameter         = io.connect('http://<%= ipaddr %>:1337/parameter');
 var default_parameter = io.connect('http://<%= ipaddr %>:1337/default_parameter');
 //指令情報
 var signal            = io.connect('http://<%= ipaddr %>:1337/signal');
+//サーバーサイド情報
+var cputemp           = io.connect('http://<%= ipaddr %>:1337/cputemp');		
 
 default_parameter.emit("initial","initial");
 default_parameter.on("default_text",function(data){
-    $("#log").append($('<h5>').text("default parameter received"));
+    $("#log").append($('<h5>').text(new Date() + " : 初期設定を受信しました"));
     $("#log").append($('<h5>').text(data));
     var data=JSON.parse(data);
     console.log(data);
@@ -327,11 +323,16 @@ default_parameter.on("default_text",function(data){
     $('.parameter_right #select_foot').val(data.right_foot);
 });
 
+cputemp.on("cputemp",function(data){
+    $("#log").prepend($('<h5>').text(new Date() + " : CPU温度" + data + "度").css({'color':'red'}));		
+});		
+ 		
+		
 $("#forward").mousedown(function(e){
     console.log("forward clicked");
     var date=new Date()
     signal.emit("signal",1);
-    $("#log").append($('<h5>').text(date+" : forward (signal=1)"));
+    $("#log").prepend($('<h5>').text(date+" : 前進   (signal=1)"));
 
 });
 
@@ -339,14 +340,14 @@ $("#left").mousedown(function(e){
     console.log("left clicked");
     var date=new Date()
     signal.emit("signal",2);
-    $("#log").append($('<h5>').text(date+" : left (signal=2)"));
+    $("#log").prepend($('<h5>').text(date+" : 左旋回 (signal=2)"));
 });
 
 $("#dive").mousedown(function(e){
     console.log("dive clicked");
     var date=new Date()
     signal.emit("signal",3);
-    $("#log").append($('<h5>').text(date+" : dive (signal=3)"));
+    $("#log").prepend($('<h5>').text(date+" : 潜水   (signal=3)"));
 });
 
 
@@ -354,7 +355,7 @@ $("#right").mousedown(function(e){
     console.log("right clicked");
     var date=new Date()
     signal.emit("signal",4);
-    $("#log").append($('<h5>').text(date+" : right (signal=4)"));
+    $("#log").prepend($('<h5>').text(date+" : 右旋回 (signal=4)"));
 });
 
 //パラメーターをサーバーに送信
@@ -373,9 +374,9 @@ $("#set").mousedown(function(e){
 	        right_tail:$('.parameter_right #select_tail').val(),
 	        right_foot:$('.parameter_right #select_foot').val()};
 
-    parameter.json.emit("message",param)
-    $("#log").append($('<h5>').text("ファイルに設定を書き込みます"));
-    $("#log").append($('<h5>').text(JSON.stringify(param)));
+    parameter.json.emit("parameter",param)
+    $("#log").prepend($('<h5>').text("ファイルに設定を書き込みます").css({'color':'#3FF'}));
+    $("#log").prepend($('<h5>').text(JSON.stringify(param)).css({'color':'#3FF'}));
 
 });
 

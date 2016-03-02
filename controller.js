@@ -47,7 +47,7 @@ var default_parameter=io.of('/default_parameter').on('connection',function(socke
 });
 
 var parameter=io.of('/parameter').on('connection',function(socket){
-    socket.on('message', function(data) {
+    socket.on('parameter', function(data) {
         //console.log(data);
         fs.writeFile("./setting.txt",JSON.stringify(data),function(err){
             if(err) throw err;
@@ -62,6 +62,19 @@ var signal=io.of('/signal').on('connection',function(socket){
         //console.log("signal="+data);
 	console.log(data);        
     });
+});
+
+
+var cputemp=io.of('/cputemp').on('connection',function(socket){
+    
+    setInterval(function(){
+	var child=exec('cputemp',function(error,stdout,stderr){
+	    //console.log(stdout);
+	    socket.emit("cputemp",stdout);
+	});
+    },10000);
+    
+
 });
 
 
