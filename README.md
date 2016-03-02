@@ -2,8 +2,8 @@
 遊泳テスト支援ツール
 ![link](https://github.com/muro-tani/trybots_controller/blob/master/ui.png)  
 
-##構成  
-###クライアントサイド  
+##1 構成  
+###1-1 クライアントサイド  
 ####index.ejs  
 メインUI,css,javascript  
 ロボットのコントロール機能  
@@ -11,7 +11,7 @@
 リアルタイムログ表示機能  
 サーバーとの通信機能  
 
-###サーバーサイド  
+###1-2 サーバーサイド  
 ####controller.js 
 クライアントとの通信機能  
 クライアントからパラメーターを受信しsetting.txtを書き換える  
@@ -26,16 +26,16 @@ Raspberry-pi側の実装
 尻尾 : GPIO22    
 足   : GPIO27  
 
-###設定ファイル  
+###1-3 設定ファイル  
 ####setting.txt
 前進時,潜水時,左旋回時、右旋回時の頭、尻尾、足に対応する
 サーボモーターの角度が記録されている  
 
-##実行方法
-###環境構築  
+##2 実行方法
+###2-1 環境構築  
 npm install socket.io  
 npm install ejs  
-###実行  
+###2-2 実行  
 $nodejs controller.js|python server.py  
 (nodejsでサーバーを起動、その出力をモーター制御するpythonスクリプトに渡している)  
 ブラウザ(chrome推奨)でhttp://<raspberrypiのローカルipアドレス>:1337へアクセスする  
