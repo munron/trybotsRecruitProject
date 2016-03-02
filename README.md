@@ -1,5 +1,6 @@
 # trybots_controller
 遊泳テスト支援ツール
+![link](https://github.com/muro-tani/trybots_controller/blob/master/ui.png)  
 
 ##構成  
 ###クライアントサイド  
@@ -37,5 +38,5 @@ npm install ejs
 ###実行  
 $nodejs controller.js|python server.py  
 (nodejsでサーバーを起動、その出力をモーター制御するpythonスクリプトに渡している)  
-
+ブラウザ(chrome推奨)でhttp://<raspberrypiのローカルipアドレス>:1337へアクセスする  
 
