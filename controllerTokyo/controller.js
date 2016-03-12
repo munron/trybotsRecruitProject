@@ -6,22 +6,20 @@ var app=require('http').createServer(handler),
     serialport=require('serialport');
 app.listen(1337);
 
-// Serial Port
-var array;
-var portName;
-var sp;
-var startFlag=0;
-
-function serialInit(){
-    sp = new serialport.SerialPort(portName, {
-	    baudRate: 115200,
-	    dataBits: 8,
-	    parity: 'none',
-	    stopBits: 1,
-	    flowControl: false,
-	    parser: serialport.parsers.readline("\n")
-	});
+if(process.argv.length < 3) {
+    console.log('引数が足りていません');
+    return;
 }
+
+var sp = new serialport.SerialPort(process.argv[2], {
+	baudRate: 115200,
+	dataBits: 8,
+	parity: 'none',
+	stopBits: 1,
+	flowControl: false,
+	parser: serialport.parsers.readline("\n")
+    });
+
 
 function handler(req,res){
     var url = req.url;
@@ -30,22 +28,12 @@ function handler(req,res){
 		res.writeHead(200,{'Content-Type': 'text/html'});
 		res.write(data);
 		res.end();
-		/*
 		sp.write("a", function(err, results){
       			console.log("アクセスを検知..シリアル通信開始");
 			console.log("err : "+ err + " ,result status : " + results);
 			if(results==1)console.log("正常です");
 			
 		    });
-		*/
-		child = exec('ls /dev/{cu,tty}.*',function (error, stdout, stderr) {
-			array=new Array(stdout.split(/\r\n|\r|\n/));
-			console.log('stdout: ' + array);
-			console.log('stderr: ' + stderr);
-			if (error !== null) {
-			    console.log('exec error: ' + error);
-			}
-		    });		
 	    });
     } else if ('/test.js' == url) {
 	fs.readFile(__dirname+'/test.js', 'UTF-8', function (err, data) {
@@ -68,39 +56,17 @@ function handler(req,res){
     }
 }
 
-var portData=io.of('/portData').on('connection',function(socket){
-	socket.json.emit("portData",array);
-	socket.on("portData",function(data){
-		console.log(data);
-		portName=data;
-		serialInit();
-		serialFlag=1;
-	    });
-    });
 
-var fliperData=io.of('/fliperData').on('connection',function(socket){
-
+var sensorData=io.of('/sensorData').on('connection',function(socket){
 	sp.on('data', function(input) {
 		var jsonData = JSON.parse(input);
+		console.log(jsonData);
 		if(jsonData.type=="fliper"){
 		    socket.json.emit("fliperData",jsonData);
+		}else if(jsonData.type=="hmd"){
+		    socket.json.emit("hmdData",jsonData);
 		}	
 	    });
-
     });
-
-var hmdData=io.of('/hmdData').on('connection',function(socket){
-
-	    sp.on('data', function(input) {
-		    var jsonData = JSON.parse(input);
-		    if(jsonData.type=="hmd"){
-			//console.log(jsonData);
-			socket.json.emit("hmdData",jsonData);
-		    }	
-		});
-
-    });
-
-
 
 

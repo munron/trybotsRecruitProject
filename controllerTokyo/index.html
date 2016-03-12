@@ -7,19 +7,14 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
   </head>
   <body>
+
     <div class="left">
-      <p>Serial</p>
-      <form>
-        <select id="selectPort"></select>
-      </form>
-      <button id="start"><p>Start!!</p></button>
+      <!-- 拡張機能用スペース-->
     </div>
     
     <div class="right">
-     
       <p id="swimMode">受信待機</p>
-      <p id="sum">受信待機</p>
-     
+      <p id="sum">受信待機</p>     
       <p>yaw</p>
       <p id="yaw">受信待機</p>
       <p>roll</p>
@@ -57,32 +52,14 @@
        margin-left:50%;
     }
 
-    select{
-      width:50%;
-      height:40px;
-      font-weight:bold;
-      color:white;
-      font-size:16px;
-      background-color: rgba(0,0,0,0.1);
-      border: 2px solid #3FF;
-    }
-
-    button{
-      margin-top:200px;
-      width:50%;
-      background-color: rgba(0,0,0,0.1);
-      border: 2px solid #3FF;
-    }
   </style>
   <script>
 
     var swimMode=0;
-    var portData   = io.connect('http://localhost:1337/portData');
-    var fliperData = io.connect('http://localhost:1337/fliperData');
-    var hmdData    = io.connect('http://localhost:1337/hmdData');
+    var sensorData = io.connect('http://localhost:1337/sensorData');
 
     //fliperセンサーのデータを可視化
-    fliperData.on("fliperData",function(data){
+    sensorData.on("fliperData",function(data){
        //console.log(data);
        $("#sum").text(data.sum);
        if(data.swimMode==1){
@@ -95,22 +72,11 @@
      });
     
     //HMDセンサーのデータを可視化
-    hmdData.on("hmdData",function(data){
+    sensorData.on("hmdData",function(data){
       $('#yaw').text(data.yaw);
       $('#roll').text(data.roll);
       $('#pitch').text(data.pitch);   
     });    
 
-    portData.on("portData",function(data){
-      console.log(data);
-      for(var i=0;i<data[0].length;i++){
-        console.log(data[0][i]);
-        $('#selectPort').append($('<option>').html(data[0][i]).val(data[0][i]));
-      }
-    });
-
-    $('#start').mousedown(function(e){
-      portData.emit("portData",$('#selectPort').val());
-    });		      
   </script>
 </html>
