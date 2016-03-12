@@ -1,0 +1,116 @@
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>controllerTokyo</title>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <div class="left">
+      <p>Serial</p>
+      <form>
+        <select id="selectPort"></select>
+      </form>
+      <button id="start"><p>Start!!</p></button>
+    </div>
+    
+    <div class="right">
+     
+      <p id="swimMode">受信待機</p>
+      <p id="sum">受信待機</p>
+     
+      <p>yaw</p>
+      <p id="yaw">受信待機</p>
+      <p>roll</p>
+      <p id="roll">受信待機</p>
+      <p>pitch</p>
+      <p id="pitch">受信待機</p>
+    </div>
+
+  </body>
+
+  <style>
+    body{
+    　color:blue;
+      text-align:center;
+      background-image: url("trybots.jpg");
+      background-size:100% auto;
+      background-repeat: no-repeat;
+      padding:0px;
+      margin:0px;
+    }
+
+    p{
+      font-family: 'Roboto Condensed', sans-serif;
+      font-size:40px;
+      font-weight:bold;
+      color:white;
+      margin:25px auto;
+    }   
+    
+    .left{
+      float:left;
+      width:50%;
+    }
+    .right{
+       margin-left:50%;
+    }
+
+    select{
+      width:50%;
+      height:40px;
+      font-weight:bold;
+      color:white;
+      font-size:16px;
+      background-color: rgba(0,0,0,0.1);
+      border: 2px solid #3FF;
+    }
+
+    button{
+      margin-top:200px;
+      width:50%;
+      background-color: rgba(0,0,0,0.1);
+      border: 2px solid #3FF;
+    }
+  </style>
+  <script>
+
+    var swimMode=0;
+    var portData   = io.connect('http://localhost:1337/portData');
+    var fliperData = io.connect('http://localhost:1337/fliperData');
+    var hmdData    = io.connect('http://localhost:1337/hmdData');
+
+    //fliperセンサーのデータを可視化
+    fliperData.on("fliperData",function(data){
+       //console.log(data);
+       $("#sum").text(data.sum);
+       if(data.swimMode==1){
+         $('#swimMode').text("swimming!!");
+         swimMode=1;
+       }else{
+         $('#swimMode').text("stop...");
+         swimMode=0;
+       }
+     });
+    
+    //HMDセンサーのデータを可視化
+    hmdData.on("hmdData",function(data){
+      $('#yaw').text(data.yaw);
+      $('#roll').text(data.roll);
+      $('#pitch').text(data.pitch);   
+    });    
+
+    portData.on("portData",function(data){
+      console.log(data);
+      for(var i=0;i<data[0].length;i++){
+        console.log(data[0][i]);
+        $('#selectPort').append($('<option>').html(data[0][i]).val(data[0][i]));
+      }
+    });
+
+    $('#start').mousedown(function(e){
+      portData.emit("portData",$('#selectPort').val());
+    });		      
+  </script>
+</html>
