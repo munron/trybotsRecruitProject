@@ -30,6 +30,7 @@ print "sended hole punching packet to %s:%d" % remoteAddr
 data,addr = sock.recvfrom(1024)
 print "message from [%s]:%s" % (data,addr)
 print "接続が確立しました"
+print "localhost:1337 にアクセスしてください"
 
 #標準入力から読み取ったデータを送信
 while True:

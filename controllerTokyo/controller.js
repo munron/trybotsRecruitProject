@@ -4,9 +4,13 @@ var app=require('http').createServer(handler),
     os=require('os'),
     exec = require('child_process').exec,
     serialport=require('serialport');
+app.listen(1337);
+
+var yellow  = '\u001b[33m';
+console.error(yellow);
 
 if(process.argv.length < 3) {
-    console.log('引数が足りていません');
+    console.error('引数が足りていません');
     return;
 }
 
@@ -19,19 +23,14 @@ var sp = new serialport.SerialPort(process.argv[2], {
 	parser: serialport.parsers.readline("\n")
     });
 
-setTimeout(function(){
-	app.listen(1337);
-	console.error("try connecting .....")
-	sp.write("a", function(err, results){
-		console.error("アクセスを検知..シリアル通信開始");
-		console.error("err : "+ err + " ,result status : " + results);
-		if(results==1)console.error("正常です");
-	    });
-    },3000);
-
 function handler(req,res){
     var url = req.url;
     if ('/' == url){
+	sp.write("a", function(err, results){
+		console.error("シリアル通信開始");
+		console.error("err : "+ err + " ,result status : " + results);
+		if(results==1)console.error("正常です");
+	    });
 	fs.readFile(__dirname+'/index.html','UTF-8',function(err,data){
 		res.writeHead(200,{'Content-Type': 'text/html'});
 		res.write(data);
@@ -74,6 +73,8 @@ sp.on('data', function(input) {
 	    console.error("error : " + e);
 	}
     });
+
+
 
 
 
