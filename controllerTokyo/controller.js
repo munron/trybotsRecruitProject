@@ -4,7 +4,6 @@ var app=require('http').createServer(handler),
     os=require('os'),
     exec = require('child_process').exec,
     serialport=require('serialport');
-app.listen(1337);
 
 if(process.argv.length < 3) {
     console.log('引数が足りていません');
@@ -20,6 +19,15 @@ var sp = new serialport.SerialPort(process.argv[2], {
 	parser: serialport.parsers.readline("\n")
     });
 
+setTimeout(function(){
+	app.listen(1337);
+	console.error("try connecting .....")
+	sp.write("a", function(err, results){
+		console.error("アクセスを検知..シリアル通信開始");
+		console.error("err : "+ err + " ,result status : " + results);
+		if(results==1)console.error("正常です");
+	    });
+    },3000);
 
 function handler(req,res){
     var url = req.url;
@@ -28,12 +36,6 @@ function handler(req,res){
 		res.writeHead(200,{'Content-Type': 'text/html'});
 		res.write(data);
 		res.end();
-		sp.write("a", function(err, results){
-      			console.log("アクセスを検知..シリアル通信開始");
-			console.log("err : "+ err + " ,result status : " + results);
-			if(results==1)console.log("正常です");
-			
-		    });
 	    });
     } else if ('/test.js' == url) {
 	fs.readFile(__dirname+'/test.js', 'UTF-8', function (err, data) {
@@ -56,17 +58,23 @@ function handler(req,res){
     }
 }
 
-
 var sensorData=io.of('/sensorData').on('connection',function(socket){
-	sp.on('data', function(input) {
-		var jsonData = JSON.parse(input);
-		console.log(jsonData);
-		if(jsonData.type=="fliper"){
-		    socket.json.emit("fliperData",jsonData);
-		}else if(jsonData.type=="hmd"){
-		    socket.json.emit("hmdData",jsonData);
-		}	
-	    });
     });
+
+sp.on('data', function(input) {
+	try{
+	    var jsonData = JSON.parse(input);
+	    console.log(jsonData);		    
+	    if(jsonData.type=="fliper"){
+		sensorData.json.emit("fliperData",jsonData);
+	    }else if(jsonData.type=="hmd"){
+		sensorData.json.emit("hmdData",jsonData);
+		    }	
+	}catch(e){
+	    console.error("error : " + e);
+	}
+    });
+
+
 
 
