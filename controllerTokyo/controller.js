@@ -7,10 +7,12 @@ var app=require('http').createServer(handler),
 app.listen(1337);
 
 var yellow  = '\u001b[33m';
-console.error(yellow);
+var reset   = '\u001b[0m';
+
+
 
 if(process.argv.length < 3) {
-    console.error('引数が足りていません');
+    console.error(yellow+'引数が足りていません'+reset);
     return;
 }
 
@@ -27,9 +29,9 @@ function handler(req,res){
     var url = req.url;
     if ('/' == url){
 	sp.write("a", function(err, results){
-		console.error("シリアル通信開始");
-		console.error("err : "+ err + " ,result status : " + results);
-		if(results==1)console.error("正常です");
+		console.error(yellow+"シリアル通信開始");
+		console.error("err : "+ err + " ,result status : " + results + reset);
+		if(results==1)console.error(yellow + "正常です" + reset) ;
 	    });
 	fs.readFile(__dirname+'/index.html','UTF-8',function(err,data){
 		res.writeHead(200,{'Content-Type': 'text/html'});
@@ -63,7 +65,7 @@ var sensorData=io.of('/sensorData').on('connection',function(socket){
 sp.on('data', function(input) {
 	try{
 	    var jsonData = JSON.parse(input);
-	    console.log(jsonData);		    
+	    console.log("%j",jsonData);		    
 	    if(jsonData.type=="fliper"){
 		sensorData.json.emit("fliperData",jsonData);
 	    }else if(jsonData.type=="hmd"){
