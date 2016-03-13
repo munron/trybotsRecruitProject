@@ -1,0 +1,18 @@
+映像表示ソフト候補
+
+[mplayer]
+ラグほぼなし
+macで上手く動作しなかった(2016/1/20)
+$ python receiver-debug.py 25000|mplayer -demuxer +h264es -
+
+[cvlc]
+ラグあり
+$ python receiver-debug.py 25000|cvlc stream:///dev/stdin :demux=h264
+
+[gstreamer(gst-launch-1.0)]
+ラグほぼなし
+$ python receiver-debug.py 25000|gst-launch-1.0 filesrc location=/dev/stdin ! h264parse ! avdec_h264 ! xvimagesink
+
+[ffplay]
+これはひどい
+$ python receiver-debug.py 25000|ffplay -f h264 -
