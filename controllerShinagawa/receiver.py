@@ -36,12 +36,12 @@ def exit_handler(signal, frame):
 signal.signal(signal.SIGINT, exit_handler)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.OUT)
-GPIO.setup(22, GPIO.OUT)
+GPIO.setup(24, GPIO.OUT)
 GPIO.setup(27, GPIO.OUT)
-servoHeadYaw = GPIO.PWM(17, 50)
-servoHeadPitch = GPIO.PWM(22, 50)
+servoHeadRoll = GPIO.PWM(24, 50)
+servoHeadPitch = GPIO.PWM(17, 50)
 servoFoot = GPIO.PWM(27, 50)
-servoHeadYaw.start(0.0)
+servoHeadRoll.start(0.0)
 servoHeadPitch.start(0.0)
 servoFoot.start(0.0)
 
@@ -57,11 +57,42 @@ sys.stderr.write("[receiver.py] : sended packet to %s:%d\n" % remoteAddr)
 sf=sock.makefile()
 
 def getServoPitch(pitch):
-    return pitch
+    if pitch > 0 and pitch < 45:
+        servoHeadPitch.ChangeDutyCycle(7.0+2.0/45*pitch)
+    elif pitch < 0 and pitch > -45:
+        servoHeadPitch.ChangeDutyCycle(7.0+2.0/45*pitch)
+    elif pitch > 45 :
+        servoHeadPitch.ChangeDutyCycle(7.0+2.0)
+    elif pitch < -45 :
+        servoHeadPitch.ChangeDutyCycle(7.0-2.0)
+    
+
 
 def getServoRoll(roll):
-    return pitch
+    if roll > 0 and roll < 45 :
+        servoHeadRoll.ChangeDutyCycle(7.0+2.0/45*roll)
+        return 7.0+2.0/45*roll
+    elif roll <0 and roll > -45 :
+        servoHeadRoll.ChangeDutyCycle(7.0+2.0/45*roll)
+        return 7.0+2.0/45*roll
+    elif roll > 45 :
+        servoHeadRoll.ChangeDutyCycle(7.0+2.0)
+        return 9.0
+    elif roll < -45 :
+        servoHeadRoll.ChangeDutyCycle(7.0-2.0)
+        return 5.0
 
+    
+def getFoot(foot):
+    if foot > 0 and foot < 45 :
+        servoFoot.ChangeDutyCycle(7.0-2.0/45*foot)
+    elif foot <0 and foot > -45 :
+        servoFoot.ChangeDutyCycle(7.0+2.0/45*foot)
+    elif foot > 45 :
+        servoFoot.ChangeDutyCycle(7.0-2.0)
+    elif foot < -45 :
+        servoFoot.ChangeDutyCycle(7.0+2.0)
+    
 def getRequest(swimMode):
     response = requests.get(
         'http://munro.local:1337',
@@ -80,7 +111,14 @@ while True:
             getRequest(swimMode);
             preSwimMode=swimMode        
    
-#    elif jsonData['type'] == "hmd" :
-#        sys.stdout.write("pitch : %d\n" % jsonData['pitch'])
+    elif jsonData['type'] == "hmd" :
+        getServoRoll(jsonData['roll'])
+        getFoot(jsonData['roll'])
+        getServoPitch(jsonData['pitch'])
+        
+
+            
 
                                 
+
+                                          

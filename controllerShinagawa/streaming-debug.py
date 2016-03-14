@@ -48,4 +48,5 @@ print "接続が確立しました"
 #標準入力から読み取ったデータを送信
 while True:
    buf = sys.stdin.read(1024)
+   sys.stdout.write(buf)
    sock.sendto(buf,remoteAddr)

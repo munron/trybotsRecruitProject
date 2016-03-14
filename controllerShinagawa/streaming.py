@@ -11,7 +11,7 @@ import sys
 param=sys.argv
 remoteHost=param[1]
 localHost='0.0.0.0'
-port=25000
+port=30000
 localAddr=(localHost,port)
 remoteAddr=(remoteHost,port)
 
