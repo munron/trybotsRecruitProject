@@ -4,7 +4,7 @@
 
 #接続先グローバルipの取得
 ip=`python getip.py|tail -1`
-echo "接続先グローバルip[ $ip ]"
+echo "[receiveSensor.sh] : 接続先グローバルip[ $ip ]" >&2
 
 sleep 3
 

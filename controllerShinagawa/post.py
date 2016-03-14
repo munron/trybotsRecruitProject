@@ -5,8 +5,8 @@ import sys
 
 def main():
     response = requests.get(
-        'http://adawarppi3.local:1337/',
-        {"dc":"1"})
+        'http://munro.local:1337',
+        params={'dc':'1'})
     try:
         pprint.pprint(response.json())
     except:
