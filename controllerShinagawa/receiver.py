@@ -7,6 +7,8 @@
 
 import socket
 import sys
+import json
+import os
 
 param=sys.argv
 remoteHost=param[1]
@@ -24,7 +26,15 @@ print "binded UDP socket to %s:%d" % localAddr
 #streaming.pyによってルーターが記録した経路でパケットが届く
 sock.sendto("Hi!! this is receiver",remoteAddr)
 print "sended packet to %s:%d" % remoteAddr
-
+sf=sock.makefile()
 #受信したデータを雑に吐き出す
+
 while True:
-    sys.stdout.write(sock.recv(65535))
+    #sys.stdout.write(sf.readline())
+    jsonData=json.loads(sf.readline())
+    if jsonData['type'] == "fliper" :
+        sys.stdout.write("swimMode : %d\n" % jsonData['swimMode'])
+    elif jsonData['type'] == "hmd" :
+        sys.stdout.write("pitch : %d\n" % jsonData['pitch'])
+    sys.stdout.flush()
+                                
