@@ -43,6 +43,6 @@ print "sended packet to %s:%d" % remoteAddr
 
 #受信したデータを雑に吐き出す
 while True:
-    sys.stdout.write(sock.recv(65535))
+    sys.stdout.write(sock.recv(4096))
 
 
