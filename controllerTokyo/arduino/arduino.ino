@@ -118,7 +118,9 @@ VectorFloat gravity;    // [x, y, z]            gravity vector
 float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 int pre_gyroLeft=0;
 int pre_gyroRight=0;
-char str[60];
+char str[60]={0};
+char servoRoll[4];
+char servoPitch[4];
 int swimMode=0;
 int mode=1;
 int flag=1;
@@ -129,8 +131,13 @@ int flag=1;
 uint8_t gyroPinLeft = A0;
 uint8_t gyroPinRight = A1;
 
+float getServoRoll(int rolll){
+    return (7.0+2.0/45*rolll);
+}
 
-
+float getServoPitch(int pitch){
+    return 7.0+2.0/70*pitch;
+}
 
 // ================================================================
 // ===               INTERRUPT DETECTION ROUTINE                ===
@@ -304,7 +311,13 @@ void loop() {
 		Serial.print(ypr[2] * 180 / M_PI);
     Serial.println("}");
    */
-    sprintf(str,"{\"type\":\"hmd\",\"yaw\":%d,\"pitch\":%d,\"roll\":%d}",(int)(ypr[0] * 180 / M_PI),(int)(ypr[1] * 180 / M_PI),(int)(ypr[2] * 180 / M_PI));
+    int yaw=ypr[0] * 180 / M_PI;
+    int pitch=ypr[1] * 180 / M_PI;
+    int roll=ypr[2] * 180 / M_PI;
+   
+    //dtostrf(getServoRoll(roll),4,1,servoRoll);
+    //dtostrf(getServoPitch(pitch),4,1,servoPitch);
+    sprintf(str,"{\"type\":\"hmd\",\"pitch\":%d,\"roll\":%d}",pitch,roll);
     Serial.println(str);
 #endif
 
@@ -327,9 +340,9 @@ void loop() {
     Serial.print(defLeft+defRight);
     */
     
-    if((defLeft+defRight)>200){
+    if((defLeft+defRight)>80){
       flag++;
-      if(flag>4){
+      if(flag>3){
         swimMode=1;
         mode=0;      
       }
@@ -343,7 +356,7 @@ void loop() {
         swimMode=0;
       }
     }
-
+    
     sprintf(str,"{\"type\":\"fliper\",\"left\":%d,\"right\":%d,\"sum\":%d,\"swimMode\":%d,\"mode\":%d,\"flag\":%d}",defLeft,defRight,defLeft+defRight,swimMode,mode,flag);
     Serial.println(str);
     

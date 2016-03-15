@@ -9,7 +9,7 @@ import sys
 
 serverHost='sairilab.com'  #デフォルトシグナリングサーバー
 localHost='0.0.0.0'
-port=25000
+port=25001
 localAddr=(localHost,port)
 serverAddr=(serverHost,10007)
 
@@ -25,3 +25,5 @@ targetIp,addr=sock.recvfrom(1024)
 print "%s" % targetIp
 
 sock.close()
+
+
