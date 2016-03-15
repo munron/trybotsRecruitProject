@@ -8,4 +8,4 @@ echo "接続先グローバルip"
 echo $ip
 
 #カメラモジュールからh.264エンコードされたバイナリを受け取り送信
-raspivid -n -t 0 -w 600 -h 400 -o -|python streaming.py $ip
+raspivid -n -t 0 -w 600 -h 450 -vf -o -|python streaming.py $ip
