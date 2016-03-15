@@ -2,8 +2,6 @@
 # [名前] streaming.py
 # [起動] python streaming.py "接続先グローバルip"
 # [仕様] UDP hole punchingを行い。コネクションを確立後、標準入力から読み取ったデータ(映像バイナリ)を送信する
-# [備考] receiver.pyより前のタイミングで起動させる必要がある
-
 
 import socket
 import sys
@@ -14,22 +12,24 @@ localHost='0.0.0.0'
 port=30000
 localAddr=(localHost,port)
 remoteAddr=(remoteHost,port)
+YELLOW='\033[93m'
+ENDC='\033[0m'
 
-print "Accessing to %s:%d" % (remoteHost,port)
-
+sys.stderr.write(YELLOW)
 sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 sock.bind(localAddr)
-print "binded UDP socket to %s:%d" % localAddr
+sys.stderr.write("[品川会場 streaming.py] : UDPソケットをバインド (%s:%d)\n" % localAddr)
 
 #UDP hole punchingの処理
 #この送信は送信先ルーターに阻まれ受信はされない
 #しかしルーターに接続記録が残るため以降データを受信することが可能となる
 sock.sendto("UDP hole punching",remoteAddr)
-print "sended hole punching packet to %s:%d" % remoteAddr
+sys.stderr.write("[品川会場 streaming.py] : UDP Hole Punchingパケットの送信 (%s:%d)\n" % remoteAddr)
 
 data,addr = sock.recvfrom(1024)
-print "message from [%s]:%s" % (data,addr)
-print "接続が確立しました"
+sys.stderr.write("[品川会場 streaming.py] : パケットを受信 [%s]:%s\n" % (data,addr))
+sys.stderr.write("接続が確立しました\n")
+sys.stderr.write(ENDC)
 
 #標準入力から読み取ったデータを送信
 while True:

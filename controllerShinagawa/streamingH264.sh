@@ -1,11 +1,8 @@
-
 #!/bin/sh
+# [名前] streamingH264.sh
+# [起動] sh streamingH264.sh
+# [仕様] UDP hole punchingを行い。コネクションを確立後、標準入力から読み取ったデータ(映像バイナリ)を送信する
 
-#接続先グローバルipを取得
-ip=`python getip.py|tail -1`
+ip=`python getip.py`
 
-echo "接続先グローバルip"
-echo $ip
-
-#カメラモジュールからh.264エンコードされたバイナリを受け取り送信
 raspivid -n -t 0 -w 600 -h 450 -vf -o -|python streaming.py $ip
