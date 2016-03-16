@@ -15,7 +15,7 @@ $sh reveiverH264.sh
 ###センサー値送信  
 $cd ~/trybotsRecruitProject/controllerTokyo  
 //品川会場側の起動を待つ  
-$sh streaminfSensor.sh  <シリアルポート名>  
+$sh streamingSensor.sh  <シリアルポート名>  
 //例 $sh streaminfSensor.sh /dev/tty.usbmodem1461  
 
 
