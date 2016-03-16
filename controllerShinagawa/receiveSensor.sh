@@ -1,14 +1,11 @@
 
-
 #!/bin/sh
+#[名前] : receiveSensor.sh
+#[起動] : sh receiveSensor.sh
+#[仕様] : センサーデータ受信 -> サーボ制御
 
-#接続先グローバルipの取得
-ip=`python getip.py|tail -1`
-echo "[receiveSensor.sh] : 接続先グローバルip[ $ip ]" >&2
-
+ip=`python getip.py`
 sleep 3
-
-#センサーデータを受信して標準出力
 python receiver.py $ip
 
 

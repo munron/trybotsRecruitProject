@@ -1,4 +1,4 @@
-
+#書きかけ、特に利用しない
 # -*- coding: utf-8 -*-
 import json
 import os
