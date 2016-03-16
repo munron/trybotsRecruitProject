@@ -16,7 +16,9 @@ $sh reveiverH264.sh
 $cd ~/trybotsRecruitProject/controllerTokyo  
 //品川会場側の起動を待つ  
 $sh streamingSensor.sh  <シリアルポート名>  
-//例 $sh streaminfSensor.sh /dev/tty.usbmodem1461  
+//例 $sh streaminfSensor.sh /dev/tty.usbmodem1461 
+起動を確認後ブラウザでlocalhost:1337へアクセスするとセンサー値等
+を確認できる  
 
 
 
