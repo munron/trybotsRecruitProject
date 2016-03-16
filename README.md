@@ -20,7 +20,7 @@
  - 離れた会場で双方のネットワークはグローバルipアドレスを持っていないため  
  UDP Hole Punchingというアルゴリズムを用いてP2Pでの通信を可能にした
 - **構成**  
- - [/controllerTokyo]()  
+ - [/controllerTokyo](https://github.com/muro-tani/trybotsRecruitProject/blob/master/controllerTokyo/README.md)  
  本会場側(東京)のプログラム  
  - [/controllerShinagawa]()  
  別会場側(品川)のプログラム 
