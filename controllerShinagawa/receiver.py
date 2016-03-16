@@ -36,11 +36,11 @@ def exit_handler(signal, frame):
 signal.signal(signal.SIGINT, exit_handler)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.OUT)
+GPIO.setup(22, GPIO.OUT)
 GPIO.setup(24, GPIO.OUT)
-GPIO.setup(27, GPIO.OUT)
-servoHeadRoll = GPIO.PWM(24, 50)
-servoHeadPitch = GPIO.PWM(17, 50)
-servoFoot = GPIO.PWM(27, 50)
+servoHeadRoll = GPIO.PWM(17, 50)
+servoHeadPitch = GPIO.PWM(22, 50)
+servoFoot = GPIO.PWM(24, 50)
 servoHeadRoll.start(0.0)
 servoHeadPitch.start(0.0)
 servoFoot.start(0.0)
@@ -70,28 +70,28 @@ def getServoPitch(pitch):
 
 def getServoRoll(roll):
     if roll > 0 and roll < 45 :
-        servoHeadRoll.ChangeDutyCycle(7.0+2.0/45*roll)
+        servoHeadRoll.ChangeDutyCycle(7.0-2.0/45*roll)
         return 7.0+2.0/45*roll
     elif roll <0 and roll > -45 :
-        servoHeadRoll.ChangeDutyCycle(7.0+2.0/45*roll)
+        servoHeadRoll.ChangeDutyCycle(7.0-2.0/45*roll)
         return 7.0+2.0/45*roll
     elif roll > 45 :
-        servoHeadRoll.ChangeDutyCycle(7.0+2.0)
+        servoHeadRoll.ChangeDutyCycle(7.0-2.0)
         return 9.0
     elif roll < -45 :
-        servoHeadRoll.ChangeDutyCycle(7.0-2.0)
+        servoHeadRoll.ChangeDutyCycle(7.0+2.0)
         return 5.0
 
     
 def getFoot(foot):
     if foot > 0 and foot < 45 :
-        servoFoot.ChangeDutyCycle(7.0-2.0/45*foot)
+        servoFoot.ChangeDutyCycle(7.0+2.0/45*foot)
     elif foot <0 and foot > -45 :
         servoFoot.ChangeDutyCycle(7.0+2.0/45*foot)
     elif foot > 45 :
-        servoFoot.ChangeDutyCycle(7.0-2.0)
-    elif foot < -45 :
         servoFoot.ChangeDutyCycle(7.0+2.0)
+    elif foot < -45 :
+        servoFoot.ChangeDutyCycle(7.0-2.0)
     
 def getRequest(swimMode):
     response = requests.get(

@@ -5,4 +5,4 @@
 
 ip=`python getip.py`
 
-raspivid -n -t 0 -w 600 -h 450 -vf -o -|python streaming.py $ip
+raspivid -n -t 0 -rot 180 -w 600 -h 450 -o -|python streaming.py $ip
